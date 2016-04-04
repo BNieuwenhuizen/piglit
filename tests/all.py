@@ -2331,6 +2331,12 @@ with profile.group_manager(
         grouptools.join('spec', 'ARB_robustness')) as g:
     g(['arb_robustness_client-mem-bounds'], run_concurrent=False)
 
+# Group ARB_robust_buffer_access_behavior
+with profile.group_manager(
+        PiglitGLTest,
+        grouptools.join('spec', 'ARB_robust_buffer_access_behavior')) as g:
+    g(['arb_robust_buffer_access_behvior-ssbo_write'], run_concurrent=False)
+
 # Group ARB_shader_texture_lod
 with profile.group_manager(
         PiglitGLTest,
