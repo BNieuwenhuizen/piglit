@@ -9,5 +9,6 @@ link_libraries (
 	${OPENGL_gl_LIBRARY}
 )
 
+piglit_add_executable (arb_robust_buffer_access_behavior-read_bounds read_bounds.c)
 piglit_add_executable (arb_robust_buffer_access_behavior-resources resources.c)
 piglit_add_executable (arb_robust_buffer_access_behavior-ssbo_write ssbo_write.c)
