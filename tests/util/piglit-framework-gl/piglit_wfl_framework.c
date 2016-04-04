@@ -170,9 +170,9 @@ make_context_description(char buf[], size_t bufsize, const int32_t attrib_list[]
 			 enum context_flavor flavor)
 {
 	int32_t api = 0, profile = 0, major_version = 0, minor_version = 0,
-		fwd_compat = 0, debug = 0;
+		fwd_compat = 0, debug = 0, robust = 0;
 	const char *api_str = NULL, *profile_str = NULL, *fwd_compat_str = NULL,
-	           *debug_str = NULL;
+	           *debug_str = NULL, *robust_str = NULL;
 
 	if (bufsize == 0) {
 		return;
@@ -184,6 +184,7 @@ make_context_description(char buf[], size_t bufsize, const int32_t attrib_list[]
 	waffle_attrib_list_get(attrib_list, WAFFLE_CONTEXT_MINOR_VERSION, &minor_version);
 	waffle_attrib_list_get(attrib_list, WAFFLE_CONTEXT_FORWARD_COMPATIBLE, &fwd_compat);
 	waffle_attrib_list_get(attrib_list, WAFFLE_CONTEXT_DEBUG, &debug);
+	waffle_attrib_list_get(attrib_list, WAFFLE_CONTEXT_ROBUST_ACCESS, &robust);
 
 	switch (api) {
 	case WAFFLE_CONTEXT_OPENGL:
@@ -239,9 +240,15 @@ make_context_description(char buf[], size_t bufsize, const int32_t attrib_list[]
 		debug_str = "";
 	}
 
-	snprintf(buf, bufsize, "%s %d.%d %s%s%sContext",
+	if (robust) {
+		robust_str = "Robust ";
+	} else {
+		robust_str = "";
+	}
+
+	snprintf(buf, bufsize, "%s %d.%d %s%s%s%sContext",
 		api_str, major_version, minor_version, fwd_compat_str,
-		profile_str, debug_str);
+		profile_str, debug_str, robust_str);
 }
 
 /**
@@ -356,6 +363,11 @@ make_config_attrib_list(const struct piglit_gl_test_config *test_config,
 
 	if (test_config->require_debug_context) {
 		head_attrib_list[i++] = WAFFLE_CONTEXT_DEBUG;
+		head_attrib_list[i++] = true;
+	}
+
+	if (test_config->require_robust_context) {
+		head_attrib_list[i++] = WAFFLE_CONTEXT_ROBUST_ACCESS;
 		head_attrib_list[i++] = true;
 	}
 

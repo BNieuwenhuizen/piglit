@@ -155,6 +155,14 @@ struct piglit_gl_test_config {
 	 */
 	bool require_debug_context;
 
+	/**
+	 * If true, then this test requires a robust access context.
+	 *
+	 * Piglit will choose a waffle_config with WAFFLE_CONTEXT_ROBUST_ACCESS
+	 * set to true. If context creation fails, then the test skips.
+	 */
+	bool require_robust_context;
+
 	int window_width;
 	int window_height;
 	int window_samples;
